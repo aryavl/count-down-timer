@@ -29,27 +29,32 @@
             hour.value++;
             minute.value = parseInt(minute.value) - 60
         }
-        if(parseInt(hour.value) === 0 && parseInt(minute.value)===0 && parseInt(second.value) === 0 ){
-            hour.value = ""
-            min.value = ""
-            second.value = ""
-            clearInterval(countdownTimer)
-
-        }else if(parseInt(second.value) !==0){
-            second.value=`${parseInt(second.value) <=10 ? "0":''}${parseInt(second.value - 1)}`
-        }else if(parseInt(minute.value) !=0 && parseInt(second.value) === 0){
+       if(parseInt(second.value)>0){
+            second.value=`${parseInt(second.value) <=10 ? "0":''}${parseInt(second.value) - 1}`
+        }else if(parseInt(minute.value) >0 ){
             second.value = 59
-            minute.value=`${parseInt(minute.value) <=10 ?"0":""}${parseInt(minute.value -1)}`
+            minute.value=`${parseInt(minute.value) <=10 ?"0":""}${parseInt(minute.value )-1}`
 
-        }else if(parseInt(hour.value) !==0 && parseInt(minute.value)===0){
+        }else if(parseInt(hour.value) >0 ){
             minute.value=60
-            hour.value=`${parseInt(hour.value) <=10 ?"0":""}${parseInt(hour.value -1)}`
+            hour.value=`${parseInt(hour.value) <=10 ?"0":""}${parseInt(hour.value) -1}`
+        }else{
+            clearInterval(countdownTimer)
         }
     }
-    function stopIntervel(){
+    function stopIntervel(state){
+        startBtn.innerHTML = state === "Pause" ? "Continue":"Start"
+        startBtn.style.display="initial"
+        stopBtn.style.display = "none"
         clearInterval(countdownTimer)
     }
     stopBtn.addEventListener("click",()=>{
+        stopIntervel("Pause")
+    })
+    resetBtn.addEventListener("click",()=>{
+        hour.value = ""
+        minute.value = ""
+        second.value = ""
         stopIntervel()
     })
 })()
